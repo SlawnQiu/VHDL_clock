@@ -4,7 +4,7 @@ editor if you plan to continue editing the block that represents it in
 the Block Editor! File corruption is VERY likely to occur.
 */
 /*
-Copyright (C) 1991-2010 Altera Corporation
+Copyright (C) 1991-2013 Altera Corporation
 Your use of Altera Corporation's design tools, logic functions 
 and other software and tools, and its AMPP partner logic 
 functions, and any output files from any of the foregoing 
@@ -20,73 +20,73 @@ applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 144 144)
-	(text "present_shake" (rect 5 0 76 12)(font "Arial" ))
-	(text "inst" (rect 8 112 25 124)(font "Arial" ))
+	(rect 16 16 184 160)
+	(text "prevent_shake" (rect 5 0 65 12)(font "Arial" ))
+	(text "inst" (rect 8 128 20 140)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
-		(text "clk_50M" (rect 0 0 40 12)(font "Arial" ))
-		(text "clk_50M" (rect 21 27 61 39)(font "Arial" ))
+		(text "clk_50M" (rect 0 0 34 12)(font "Arial" ))
+		(text "clk_50M" (rect 21 27 55 39)(font "Arial" ))
 		(line (pt 0 32)(pt 16 32)(line_width 1))
 	)
 	(port
 		(pt 0 48)
 		(input)
-		(text "sw0_f" (rect 0 0 29 12)(font "Arial" ))
-		(text "sw0_f" (rect 21 43 50 55)(font "Arial" ))
+		(text "sw0_f" (rect 0 0 24 12)(font "Arial" ))
+		(text "sw0_f" (rect 21 43 45 55)(font "Arial" ))
 		(line (pt 0 48)(pt 16 48)(line_width 1))
 	)
 	(port
 		(pt 0 64)
 		(input)
-		(text "SW1_f" (rect 0 0 34 12)(font "Arial" ))
-		(text "SW1_f" (rect 21 59 55 71)(font "Arial" ))
+		(text "SW1_f" (rect 0 0 29 12)(font "Arial" ))
+		(text "SW1_f" (rect 21 59 50 71)(font "Arial" ))
 		(line (pt 0 64)(pt 16 64)(line_width 1))
 	)
 	(port
 		(pt 0 80)
 		(input)
-		(text "SW2_f" (rect 0 0 34 12)(font "Arial" ))
-		(text "SW2_f" (rect 21 75 55 87)(font "Arial" ))
+		(text "SW2_f" (rect 0 0 30 12)(font "Arial" ))
+		(text "SW2_f" (rect 21 75 51 87)(font "Arial" ))
 		(line (pt 0 80)(pt 16 80)(line_width 1))
 	)
 	(port
 		(pt 0 96)
 		(input)
-		(text "SW3_f" (rect 0 0 34 12)(font "Arial" ))
-		(text "SW3_f" (rect 21 91 55 103)(font "Arial" ))
+		(text "SW3_f" (rect 0 0 30 12)(font "Arial" ))
+		(text "SW3_f" (rect 21 91 51 103)(font "Arial" ))
 		(line (pt 0 96)(pt 16 96)(line_width 1))
 	)
 	(port
-		(pt 128 32)
+		(pt 168 32)
 		(output)
-		(text "sw0_L" (rect 0 0 30 12)(font "Arial" ))
-		(text "sw0_L" (rect 77 27 107 39)(font "Arial" ))
-		(line (pt 128 32)(pt 112 32)(line_width 1))
+		(text "sw0_L" (rect 0 0 27 12)(font "Arial" ))
+		(text "sw0_L" (rect 120 27 147 39)(font "Arial" ))
+		(line (pt 168 32)(pt 152 32)(line_width 1))
 	)
 	(port
-		(pt 128 48)
+		(pt 168 48)
 		(output)
-		(text "SW1_L" (rect 0 0 35 12)(font "Arial" ))
-		(text "SW1_L" (rect 72 43 107 55)(font "Arial" ))
-		(line (pt 128 48)(pt 112 48)(line_width 1))
+		(text "SW1_L" (rect 0 0 31 12)(font "Arial" ))
+		(text "SW1_L" (rect 116 43 147 55)(font "Arial" ))
+		(line (pt 168 48)(pt 152 48)(line_width 1))
 	)
 	(port
-		(pt 128 64)
+		(pt 168 64)
 		(output)
-		(text "SW2_L" (rect 0 0 35 12)(font "Arial" ))
-		(text "SW2_L" (rect 72 59 107 71)(font "Arial" ))
-		(line (pt 128 64)(pt 112 64)(line_width 1))
+		(text "SW2_L" (rect 0 0 33 12)(font "Arial" ))
+		(text "SW2_L" (rect 114 59 147 71)(font "Arial" ))
+		(line (pt 168 64)(pt 152 64)(line_width 1))
 	)
 	(port
-		(pt 128 80)
+		(pt 168 80)
 		(output)
-		(text "SW3_L" (rect 0 0 35 12)(font "Arial" ))
-		(text "SW3_L" (rect 72 75 107 87)(font "Arial" ))
-		(line (pt 128 80)(pt 112 80)(line_width 1))
+		(text "SW3_L" (rect 0 0 33 12)(font "Arial" ))
+		(text "SW3_L" (rect 114 75 147 87)(font "Arial" ))
+		(line (pt 168 80)(pt 152 80)(line_width 1))
 	)
 	(drawing
-		(rectangle (rect 16 16 112 112)(line_width 1))
+		(rectangle (rect 16 16 152 128)(line_width 1))
 	)
 )

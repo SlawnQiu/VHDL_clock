@@ -1,12 +1,12 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 
-ENTITY present_shake IS
+ENTITY prevent_shake IS
 PORT(  clk_50M,sw0_f,SW1_f,SW2_f,SW3_f:IN STD_LOGIC;
        sw0_L,SW1_L,SW2_L,SW3_L:OUT STD_LOGIC);
-END present_shake;
+END prevent_shake;
 
-ARCHITECTURE behav OF present_shake IS
+ARCHITECTURE behav OF prevent_shake IS
 
 SIGNAL key0_reg1,key1_reg1,key2_reg1,key3_reg1,key0_reg2,key1_reg2,key2_reg2,key3_reg2:STD_LOGIC;
 BEGIN
