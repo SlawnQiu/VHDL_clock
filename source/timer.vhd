@@ -1,0 +1,312 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+ENTITY TIMER IS
+PORT(
+	CLK : IN STD_LOGIC;
+	SW1, SW2, SW3 : IN STD_LOGIC;
+	BEEPSTART : OUT STD_LOGIC;
+	OSEC0, OSEC1, OMIN0, OMIN1, OHR0, OHR1 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+	);
+END ENTITY;
+
+ARCHITECTURE BEHAV OF TIMER IS
+TYPE MODE IS (SET, RUN, STOP, ZERO);	
+
+SIGNAL STATE : MODE := ZERO;
+SIGNAL FLASH : STD_LOGIC := '0';
+SIGNAL SETDIGHT : INTEGER RANGE 0 TO 6 := 0;		--THE ORDER OF WHICH DIGHT IS BEING SET
+SIGNAL SETOK : STD_LOGIC := '0';
+SIGNAL ZEROED : STD_LOGIC;		--ALL 0 MONITOR
+
+SIGNAL TIMEOUT : STD_LOGIC := '0';		--BIT SET TO 1 WHEN TIMEOUT
+
+--SIGNAL BEEP : STD_LOGIC := '0';
+SIGNAL TMP, TMP1, TMP2, SW1_DROP, SW2_DROP, SW3_DROP : STD_LOGIC;
+SIGNAL SEC0, SEC1, MIN0, MIN1, HR0, HR1 : STD_LOGIC_VECTOR(3 DOWNTO 0);
+BEGIN
+
+PROCESS(CLK)
+BEGIN
+IF CLK'EVENT AND CLK='1' THEN
+	TMP <= SW1;
+END IF;
+END PROCESS;
+SW1_DROP <= '0' WHEN (SW1='0' AND TMP ='1') ELSE '1';
+
+PROCESS(CLK)
+BEGIN
+IF CLK'EVENT AND CLK='1' THEN
+	TMP1 <= SW2;
+END IF;
+END PROCESS;
+SW2_DROP <= '0' WHEN (SW2='0' AND TMP1 ='1') ELSE '1';
+
+PROCESS(CLK)
+BEGIN
+IF CLK'EVENT AND CLK='1' THEN
+	TMP2 <= SW3;
+END IF;
+END PROCESS;
+SW3_DROP <= '0' WHEN (SW3='0' AND TMP2 ='1') ELSE '1';
+
+
+PROCESS(CLK)	--WATCH ALL 0
+BEGIN
+IF RISING_EDGE(CLK) THEN
+	IF SEC0 = "0000" AND SEC1 = "0000" AND MIN0 = "0000" AND MIN1 = "0000" AND HR0 = "0000" AND HR1 = "0000"THEN
+		ZEROED <= '1';
+	ELSE
+		ZEROED <= '0';
+	END IF;
+END IF;
+END PROCESS;
+
+PROCESS(clk)	--
+BEGIN
+IF RISING_EDGE(CLK) THEN
+	CASE STATE IS
+		WHEN ZERO =>
+			IF SW3_DROP = '0' THEN
+				STATE <= SET;
+			END IF;
+		WHEN SET =>
+			IF SETOK = '1' AND ZEROED = '0' THEN
+				TIMEOUT <= '0';
+				STATE <= STOP;
+			ELSIF SETOK = '1' AND ZEROED = '1' THEN
+				STATE <= ZERO;
+			END IF;
+		WHEN STOP =>
+			IF SW3_DROP = '0' THEN
+				STATE <= SET;
+			ELSIF SW2_DROP = '0' THEN
+				STATE <= ZERO;
+			ELSIF SW1_DROP = '0' THEN
+				STATE <= RUN;
+			END IF;
+		WHEN RUN =>
+			IF SW1_DROP = '0' THEN
+				STATE <= STOP;
+			ELSIF ZEROED = '1' THEN
+				TIMEOUT <= '1';
+				STATE <= ZERO;
+			END IF;
+	END CASE;
+END IF;
+END PROCESS;
+
+PROCESS(TIMEOUT, CLK)	--BEEP-OUTPUT
+BEGIN
+	IF TIMEOUT = '1' THEN
+		BEEPSTART <= '1';
+	ELSE
+		BEEPSTART <= '0';
+	END IF;
+END PROCESS;
+
+PROCESS(CLK)			--WHEN MODE AT SET, SWITCH AMONG THE DIGHTS WHICH WOULD BE SET
+BEGIN
+	IF RISING_EDGE(CLK) THEN
+		IF STATE = SET THEN
+			IF SW3_DROP = '0' THEN
+				IF SETDIGHT = 6 THEN
+					SETDIGHT <= 0;
+				ELSE
+					SETDIGHT <= SETDIGHT + 1;
+				END IF;
+			END IF;
+		ELSE
+			SETDIGHT <= 0;
+		END IF;
+	END IF;
+END PROCESS;
+
+PROCESS(CLK)		--WORK-PROCESS
+VARIABLE COUNT_1HZ : INTEGER RANGE 0 TO 1000; 
+BEGIN
+IF RISING_EDGE(CLK) THEN
+	CASE STATE IS
+		WHEN ZERO =>
+			SEC0 <= "0000";
+			SEC1 <= "0000";
+			MIN0 <= "0000";
+			MIN1 <= "0000";
+			HR0 <= "0000";
+			HR1 <= "0000";
+			SETOK <= '0';
+		WHEN SET =>
+			CASE SETDIGHT IS
+				WHEN 0 =>
+					IF SW1_DROP = '0' THEN
+						IF SEC0 = "1001" THEN
+							SEC0 <= "0000";
+						ELSE
+							SEC0 <= SEC0 + '1';
+						END IF;
+					END IF;
+					
+				WHEN 1 =>
+					IF SW1_DROP = '0' THEN
+						IF SEC1 = "0101" THEN
+							SEC1 <= "0000";
+						ELSE
+							SEC1 <= SEC1 + '1';
+						END IF;
+					END IF;
+					
+				WHEN 2 =>
+					IF SW1_DROP = '0' THEN
+						IF MIN0 = "1001" THEN
+							MIN0 <= "0000";
+						ELSE
+							MIN0 <= MIN0 + '1';
+						END IF;
+					END IF;
+					
+				WHEN 3 =>
+					IF SW1_DROP = '0' THEN
+						IF MIN1 = "0101" THEN
+							MIN1 <= "0000";
+						ELSE
+							MIN1 <= MIN1 + '1';
+						END IF;
+					END IF;
+					
+				WHEN 4 =>
+					IF SW1_DROP = '0' THEN
+						IF HR0 = "1001" THEN
+							HR0 <= "0000";
+						ELSE
+							HR0 <= HR0 + '1';
+						END IF;
+					END IF;
+					
+				WHEN 5 =>
+					IF SW1_DROP = '0' THEN
+						IF HR1 = "1001" THEN
+							HR1 <= "0000";
+						ELSE
+							HR1 <= HR1 + '1';
+						END IF;
+					END IF;
+					
+				WHEN 6 =>
+					SETOK <= '1';
+			END CASE;
+			
+		WHEN RUN =>
+			SETOK <= '0';
+			IF COUNT_1HZ = 1000 THEN
+				COUNT_1HZ := 0;
+				IF SEC0 = "0000" THEN
+					SEC0 <= "1001";
+					IF SEC1 = "0000" THEN
+						SEC1 <= "0101";
+						IF MIN0 = "0000" THEN
+							MIN0 <= "1001";
+							IF MIN1 = "0000" THEN
+								MIN1 <= "0101";
+								IF HR0 = "0000" THEN
+									HR0 <= "1001";
+									HR1 <= HR1 - '1';
+								ELSE
+									HR0 <= HR0 - '1';
+								END IF;
+							ELSE
+								MIN1 <= MIN1 - '1';
+							END IF;
+						ELSE
+							MIN0 <= MIN0 - '1';
+						END IF;
+					ELSE
+						SEC1 <= SEC1 - '1';
+					END IF;
+				ELSE
+					SEC0 <= SEC0 - '1';
+				END IF;
+			ELSE
+				COUNT_1HZ := COUNT_1HZ + 1;
+			END IF;
+
+		WHEN STOP => NULL;
+	END CASE;
+END IF;
+END PROCESS;
+
+PROCESS(CLK)		--FLASHING
+VARIABLE COUNT : INTEGER RANGE 0 TO 200 := 0;
+BEGIN
+IF RISING_EDGE(CLK) THEN
+	COUNT := COUNT + 1;
+	IF COUNT = 200 THEN
+		COUNT := 0;
+		FLASH <= NOT FLASH;
+	END IF;
+END IF;
+END PROCESS;
+	
+PROCESS(CLK, FLASH, SETDIGHT)
+BEGIN
+IF RISING_EDGE(CLK) THEN
+	CASE FLASH IS
+		WHEN '0' =>
+			OSEC0 <= SEC0;
+			OSEC1 <= SEC1;
+			OMIN0 <= MIN0;
+			OMIN1 <= MIN1;
+			OHR0 <= HR0;
+			OHR1 <= HR1;
+		WHEN '1' =>
+			CASE SETDIGHT IS
+				WHEN 0 =>
+					OSEC0 <= "1111";
+					OSEC1 <= SEC1;
+					OMIN0 <= MIN0;
+					OMIN1 <= MIN1;
+					OHR0 <= HR0;
+					OHR1 <= HR1;
+				WHEN 1 =>
+					OSEC0 <= SEC0;
+					OSEC1 <= "1111";
+					OMIN0 <= MIN0;
+					OMIN1 <= MIN1;
+					OHR0 <= HR0;
+					OHR1 <= HR1;
+				WHEN 2 =>
+					OSEC0 <= SEC0;
+					OSEC1 <= SEC1;
+					OMIN0 <= "1111";
+					OMIN1 <= MIN1;
+					OHR0 <= HR0;
+					OHR1 <= HR1;
+				WHEN 3 =>
+					OSEC0 <= SEC0;
+					OSEC1 <= SEC1;
+					OMIN0 <= MIN0;
+					OMIN1 <= "1111";
+					OHR0 <= HR0;
+					OHR1 <= HR1;
+				WHEN 4 =>
+					OSEC0 <= SEC0;
+					OSEC1 <= SEC1;
+					OMIN0 <= MIN0;
+					OMIN1 <= MIN1;
+					OHR0 <= "1111";
+					OHR1 <= HR1;
+				WHEN 5 =>
+					OSEC0 <= SEC0;
+					OSEC1 <= SEC1;
+					OMIN0 <= MIN0;
+					OMIN1 <= MIN1;
+					OHR0 <= HR0;
+					OHR1 <= "1111";
+				WHEN OTHERS => NULL;
+			END CASE;
+	END CASE;
+END IF;
+END PROCESS;
+
+	
+END BEHAV;
