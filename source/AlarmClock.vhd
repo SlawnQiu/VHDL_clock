@@ -24,7 +24,7 @@ END ENTITY;
 
 ARCHITECTURE behav OF AlarmClock IS
 
-    --闹钟时间显示：时+分：A_h1A_h2-A_m1A_m2
+   --闹钟时间显示：时+分：A_h1A_h2-A_m1A_m2
 	SIGNAL A_h1 : std_logic_vector(3 DOWNTO 0) := "0000";			
 	SIGNAL A_h2 : std_logic_vector(3 DOWNTO 0) := "0000";   
 	SIGNAL A_m1 : std_logic_vector(3 DOWNTO 0) := "0000";  
@@ -37,22 +37,22 @@ ARCHITECTURE behav OF AlarmClock IS
 	SIGNAL A_m2_temp : std_logic_vector(3 DOWNTO 0);    
 	
     
-	--表示闹钟开关的信号
-    --当黄泽健译码器收到1110时，会控制其中一位数码管显示出特殊符号
+        --表示闹钟开关的信号
+        --当黄泽健译码器收到1110时，会控制其中一位数码管显示出特殊符号
 	CONSTANT r_on : std_logic_vector(3 DOWNTO 0) := "1110"; 
-    --当黄泽健译码器收到1111时，会控制最后两位数码管不显示任何东西
+        --当黄泽健译码器收到1111时，会控制最后两位数码管不显示任何东西
 	CONSTANT r_off : std_logic_vector(3 DOWNTO 0) := "1111";   
 	
 	
-	SIGNAL r_state : std_logic_vector(3 DOWNTO 0);  --闹铃开关的显示，占两位数码管
-	SIGNAL scan_flag : std_logic;				    --产生调整闹钟时闪烁的标志
-	SIGNAL A_flag : integer RANGE 0 TO 3 := 0;		--闹铃状态的标志
-	SIGNAL r_SW : std_logic :='0';				    --闹铃开关的状态位	
+	SIGNAL r_state : std_logic_vector(3 DOWNTO 0);    --闹铃开关的显示，占两位数码管
+	SIGNAL scan_flag : std_logic;		          --产生调整闹钟时闪烁的标志
+	SIGNAL A_flag : integer RANGE 0 TO 3 := 0;	  --闹铃状态的标志
+	SIGNAL r_SW : std_logic :='0';		          --闹铃开关的状态位	
 	
 BEGIN
 	
 	PROCESS(clk)		--产生调整闹钟时闪烁的标志
-		VARIABLE count : integer RANGE 0 TO 200 := 0; --更改�10000000 �200 以適�1kHz 時脈
+		VARIABLE count : integer RANGE 0 TO 200 := 0; --譖ｴ謾ｹ莠10000000 蛻200 莉･驕ｩ諛1kHz 譎りц
 	BEGIN
 		IF rising_edge(clk) THEN
 			count := count + 1;
@@ -84,7 +84,7 @@ BEGIN
 				D10 <= A_h2_temp;
 				D11 <= A_h1_temp;
 				D6 <= r_state;
-                D7 <= r_state;    --默认D11和D10相同            
+                D7 <= r_state;   --默认D11和D10相同             
 				BEEP_ENABLE <= NOT r_state(0);
 		END IF;
 	END PROCESS;
@@ -99,23 +99,23 @@ BEGIN
 					A_m1_temp <= A_m1;
 					A_m2_temp <= A_m2;
                     
-					IF r_SW ='1' THEN        --闹铃的状态为"开"
+					IF r_SW ='1' THEN       --闹铃的状态为"开"
 						r_state <= r_on;
 					ELSE
 						r_state <= r_off;
 					END IF;
                     
-				WHEN 1 =>   --调整闹钟设定时间A_h1、A_h2(时分秒中的时)                
+				WHEN 1 =>   --调整闹钟设定时间A_h1、A_h2(时分秒中的时)             
                 --调整时间A_h1、A_h2时，A_h1、A_h2会闪烁
 					IF scan_flag='0' THEN
-						A_h1_temp <= "1111";   --当黄泽健译码器收到1111时，会控制数码管变暗
-						A_h2_temp <= "1111";   --当黄泽健译码器收到1111时，会控制数码管变暗
+						A_h1_temp <= "1111";  --当黄泽健译码器收到1111时，会控制数码管变暗
+						A_h2_temp <= "1111";  --当黄泽健译码器收到1111时，会控制数码管变暗
 					ELSE
 						A_h1_temp <= A_h1;
 						A_h2_temp <= A_h2;
 					END IF;
 					
-					IF SW1='0' THEN         --调整时间，当SW1被按下,A_h1A_h2的值会增加1
+					IF SW1='0' THEN        --调整时间，当SW1被按下,A_h1A_h2的值会增加1
 						IF A_h1="0010" AND A_h2="0011" THEN
 							A_h1 <= "0000";
 							A_h2 <= "0000";
@@ -126,7 +126,7 @@ BEGIN
 							A_h2 <= A_h2 + '1';
 						END IF;
                         
-					ELSIF SW2='0' THEN       --调整时间，当SW2被按下,A_h1A_h2的值会减少1
+					ELSIF SW2='0' THEN      --调整时间，当SW2被按下,A_h1A_h2的值会减少1
 						IF A_h1="0000" AND A_h2="0000" THEN
 							A_h1 <= "0010";
 							A_h2 <= "0011";
@@ -138,20 +138,20 @@ BEGIN
 						END IF;
 					END IF;
                     
-				WHEN 2 =>      --调整闹钟设定时间A_m1、A_m2(时分秒中的分)
+				WHEN 2 =>     --调整闹钟设定时间A_m1、A_m2(时分秒中的分)
 					A_h1_temp <= A_h1;
 					A_h2_temp <= A_h2;
                     
-                    --调整时间A_m1、A_m2时，A_m1、A_m2会闪烁
+                   --调整时间A_m1、A_m2时，A_m1、A_m2会闪烁
 					IF scan_flag='0' THEN
-						A_m1_temp <= "1111";     --当黄泽健译码器收到1111时，会控制数码管变暗
-						A_m2_temp <= "1111";     --当黄泽健译码器收到1111时，会控制数码管变暗
+						A_m1_temp <= "1111";     --蠖馴ｻ�ｳｽ蛛･隸醍∝勣謾ｶ蛻ｰ1111譌ｶ�御ｼ壽而蛻ｶ謨ｰ遐∫ｮ｡蜿俶囓
+						A_m2_temp <= "1111";     --蠖馴ｻ�ｳｽ蛛･隸醍∝勣謾ｶ蛻ｰ1111譌ｶ�御ｼ壽而蛻ｶ謨ｰ遐∫ｮ｡蜿俶囓
 					ELSE
 						A_m1_temp <= A_m1;
 						A_m2_temp <= A_m2;
 					END IF;
                     
-					IF SW1='0' THEN          --调整时间，当SW1被按下，A_m1A_m2的值会增加1
+					IF SW1='0' THEN          --隹�紛譌ｶ髣ｴ�悟ｽ鉄W1陲ｫ謖我ｸ具ｼ窟_m1A_m2逧�ｼ莨壼｢槫刈1
 						IF A_m1="0101" AND A_m2="1001" THEN
 							A_m1 <= "0000";
 							A_m2 <= "0000";
@@ -162,7 +162,7 @@ BEGIN
 							A_m2 <= A_m2 + '1';
 						END IF;
                         
-					ELSIF SW2='0' THEN        --调整时间，当SW2被按下，A_m1A_m2的值会减少1
+					ELSIF SW2='0' THEN        --隹�紛譌ｶ髣ｴ�悟ｽ鉄W2陲ｫ謖我ｸ具ｼ窟_m1A_m2逧�ｼ莨壼㍼蟆1
 						IF A_m1="0000" AND A_m2="0000" THEN
 							A_m1 <= "0101";
 							A_m2 <= "1001";
@@ -174,7 +174,7 @@ BEGIN
 						END IF;
 					END IF;
                     
-				WHEN 3 =>           --闹铃开关的设置                 
+				WHEN 3 =>           --髣ｹ體�ｼ蜈ｳ逧�ｮｾ鄂ｮ                 
 					A_m1_temp <= A_h1;
 					A_m2_temp <= A_h2;
                     
@@ -182,16 +182,16 @@ BEGIN
 						r_state <= "1111";    
 					ELSE
 						IF r_SW='1' THEN
-							r_state <= r_on;   --此时r_state为1110  
+							r_state <= r_on;   --豁､譌ｶr_state荳ｺ1110  
 						ELSE
-							r_state <= r_off;  --此时r_state为1111
+							r_state <= r_off;  --豁､譌ｶr_state荳ｺ1111
 						END IF;
 					END IF;
 					
 					IF SW1='0' THEN       
-						r_SW <= NOT r_SW;      --按下SW1可以使闹铃开关打开或关闭 
+						r_SW <= NOT r_SW;      --謖我ｸ鬼W1蜿ｯ莉･菴ｿ髣ｹ體�ｼ蜈ｳ謇灘ｼ謌門�髣ｭ 
 					ELSIF SW2='0' THEN    
-						r_SW <= NOT r_SW;      --按下SW2可以使闹铃开关打开或关闭
+						r_SW <= NOT r_SW;      --謖我ｸ鬼W2蜿ｯ莉･菴ｿ髣ｹ體�ｼ蜈ｳ謇灘ｼ謌門�髣ｭ
 					END IF;
 			END CASE;
 		END IF;
