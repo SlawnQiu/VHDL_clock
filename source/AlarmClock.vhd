@@ -17,7 +17,8 @@ ENTITY AlarmClock IS
 	PORT(
             clk : IN std_logic;               --开发板的时钟频�
 			SW1,SW2,SW3 : IN std_logic;       --按键SW1用于增加时间，SW2用于减少时间，SW3用于切换状�
-			D6,D7,D8,D9,D10,D11: OUT std_logic_vector(3 DOWNTO 0)  --输送给黄泽健或周松�
+			D6,D7,D8,D9,D10,D11: OUT std_logic_vector(3 DOWNTO 0);  --输送给黄泽健或周松�
+			BEEP_ENABLE: OUT STD_LOGIC			-- For enabling comparator
 		);
 END ENTITY;
 
@@ -83,7 +84,8 @@ BEGIN
 				D10 <= A_h2_temp;
 				D11 <= A_h1_temp;
 				D6 <= r_state;
-                D7 <= r_state;    --默认D11和D10相同                  
+                D7 <= r_state;    --默认D11和D10相同         
+				BEEP_ENABLE <= NOT r_state(0);
 		END IF;
 	END PROCESS;
 		
