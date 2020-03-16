@@ -144,14 +144,14 @@ BEGIN
                     
                    --调整时间A_m1、A_m2时，A_m1、A_m2会闪烁
 					IF scan_flag='0' THEN
-						A_m1_temp <= "1111";     --蠖馴ｻ�ｳｽ蛛･隸醍∝勣謾ｶ蛻ｰ1111譌ｶ�御ｼ壽而蛻ｶ謨ｰ遐∫ｮ｡蜿俶囓
-						A_m2_temp <= "1111";     --蠖馴ｻ�ｳｽ蛛･隸醍∝勣謾ｶ蛻ｰ1111譌ｶ�御ｼ壽而蛻ｶ謨ｰ遐∫ｮ｡蜿俶囓
+						A_m1_temp <= "1111";    --当黄泽健译码器收到1111时，会控制数码管变暗
+						A_m2_temp <= "1111";    --当黄泽健译码器收到1111时，会控制数码管变暗
 					ELSE
 						A_m1_temp <= A_m1;
 						A_m2_temp <= A_m2;
 					END IF;
                     
-					IF SW1='0' THEN          --隹�紛譌ｶ髣ｴ�悟ｽ鉄W1陲ｫ謖我ｸ具ｼ窟_m1A_m2逧�ｼ莨壼｢槫刈1
+					IF SW1='0' THEN         --调整时间，当SW1被按下，A_m1A_m2的值会增加1
 						IF A_m1="0101" AND A_m2="1001" THEN
 							A_m1 <= "0000";
 							A_m2 <= "0000";
@@ -162,7 +162,7 @@ BEGIN
 							A_m2 <= A_m2 + '1';
 						END IF;
                         
-					ELSIF SW2='0' THEN        --隹�紛譌ｶ髣ｴ�悟ｽ鉄W2陲ｫ謖我ｸ具ｼ窟_m1A_m2逧�ｼ莨壼㍼蟆1
+					ELSIF SW2='0' THEN        --调整时间，当SW2被按下，A_m1A_m2的值会减少1
 						IF A_m1="0000" AND A_m2="0000" THEN
 							A_m1 <= "0101";
 							A_m2 <= "1001";
@@ -174,7 +174,7 @@ BEGIN
 						END IF;
 					END IF;
                     
-				WHEN 3 =>           --髣ｹ體�ｼ蜈ｳ逧�ｮｾ鄂ｮ                 
+				WHEN 3 =>          --闹铃开关的设置             
 					A_m1_temp <= A_h1;
 					A_m2_temp <= A_h2;
                     
@@ -182,16 +182,16 @@ BEGIN
 						r_state <= "1111";    
 					ELSE
 						IF r_SW='1' THEN
-							r_state <= r_on;   --豁､譌ｶr_state荳ｺ1110  
+							r_state <= r_on;    --此时r_state为1110 
 						ELSE
-							r_state <= r_off;  --豁､譌ｶr_state荳ｺ1111
+							r_state <= r_off;   --此时r_state为1111
 						END IF;
 					END IF;
 					
 					IF SW1='0' THEN       
-						r_SW <= NOT r_SW;      --謖我ｸ鬼W1蜿ｯ莉･菴ｿ髣ｹ體�ｼ蜈ｳ謇灘ｼ謌門�髣ｭ 
+						r_SW <= NOT r_SW;     --按下SW1可以使闹铃开关打开或关闭 
 					ELSIF SW2='0' THEN    
-						r_SW <= NOT r_SW;      --謖我ｸ鬼W2蜿ｯ莉･菴ｿ髣ｹ體�ｼ蜈ｳ謇灘ｼ謌門�髣ｭ
+						r_SW <= NOT r_SW;     --按下SW2可以使闹铃开关打开或关闭
 					END IF;
 			END CASE;
 		END IF;
