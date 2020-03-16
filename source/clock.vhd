@@ -44,11 +44,11 @@ ARCHITECTURE behav OF clock IS
 BEGIN
 	
 	PROCESS(clk)		--产生调整时间时闪烁的标志
-		VARIABLE count : integer RANGE 0 TO 10000000 := 0;
+		VARIABLE count : integer RANGE 0 TO 200 := 0;  --更改了 10000000 到 200 以適應 1kHz 時脈
 	BEGIN
 		IF rising_edge(clk) THEN
 			count := count + 1;
-			IF count = 10000000 THEN      --分频
+			IF count = 200 THEN      --分频
 				count := 0;
 				scan_flag <= NOT scan_flag;
 			END IF;
@@ -71,24 +71,24 @@ BEGIN
 	PROCESS(clk)	--输出到黄泽健译码器进行译码的进程
 	BEGIN
 		IF clk'EVENT AND clk ='1' THEN		           
-            D0 <= h1_temp;
-            D1 <= h2_temp;
-            D2 <= m1_temp;
-            D3 <= m2_temp;		
-            D4 <= s1_temp;
-            D5 <= s2_temp;						
+            D0 <= s2_temp;
+            D1 <= s1_temp;
+            D2 <= m2_temp;
+            D3 <= m1_temp;		
+            D4 <= h2_temp;
+            D5 <= h1_temp;						
 		END IF;
 	END PROCESS;
 	
 	PROCESS(clk)		--时钟的调整与进行
-	    VARIABLE count_1hz : integer RANGE 0 TO 50000000;
+	    VARIABLE count_1hz : integer RANGE 0 TO 1000; --更改了 50000000 到 1000 以適應 1kHz 時脈
         
 	BEGIN
 		IF clk'EVENT AND clk='1' THEN
 			CASE C_flag IS
 				WHEN 0 =>               --时分秒运行逻辑
 					count_1hz := count_1hz + 1;
-					IF count_1hz = 50000000 THEN
+					IF count_1hz = 1000 THEN
 						count_1hz := 0;
 						IF s2 >= "1001" THEN
 							s2 <= "0000";
