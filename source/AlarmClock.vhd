@@ -52,7 +52,7 @@ ARCHITECTURE behav OF AlarmClock IS
 BEGIN
 	
 	PROCESS(clk)		--产生调整闹钟时闪烁的标志
-		VARIABLE count : integer RANGE 0 TO 200 := 0; --譖ｴ謾ｹ莠10000000 蛻200 莉･驕ｩ諛1kHz 譎りц
+		VARIABLE count : integer RANGE 0 TO 200 := 0; 
 	BEGIN
 		IF rising_edge(clk) THEN
 			count := count + 1;
