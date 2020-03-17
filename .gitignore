@@ -4,3 +4,4 @@ quartus_files/output_files/
 quartus_files/incremental_db/
 *.ddb
 quartus_files/db/
+quartus_files/VHDL_clock.qws
