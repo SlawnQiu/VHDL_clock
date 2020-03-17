@@ -27,4 +27,4 @@ VHDL multi function clock
 /quartus_files is used for store other types of files like Quartus project, circuits, netform lists and simulation waves
 
 # Quartus project
-The project file is located at /quartus_files/VHDL_clock.qpf
+No longer available

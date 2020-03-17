@@ -5,3 +5,7 @@ quartus_files/incremental_db/
 *.ddb
 quartus_files/db/
 quartus_files/VHDL_clock.qws
+quartus_files/clock_test.ipinfo
+quartus_files/clock_test.qpf
+quartus_files/clock_test.qws
+quartus_files/clock_test.qsf
