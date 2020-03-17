@@ -1,12 +1,12 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 
-ENTITY mode IS
+ENTITY mode_select IS
 PORT(clk_1k,key:in std_logic;
   mode_out:out std_logic_vector(1 downto 0));
-END mode;
+END mode_select;
 
-ARCHITECTURE behav OF mode IS
+ARCHITECTURE behav OF mode_select IS
 SIGNAL FLAG:INTEGER RANGE 0 TO 3;
 signal key1,key2:std_logic ;
 BEGIN
