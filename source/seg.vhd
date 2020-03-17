@@ -132,7 +132,7 @@ begin
    if((cnt_4>o"002" and cnt_4<=o"042")or(cnt_4>o"044"and cnt_4 <= o"104") or (cnt_4 > o"106" and cnt_4 <= o"146") or (cnt_4 > o"150" and cnt_4 <= o"210")
             or (cnt_4 > o"212" and cnt_4 <= o"252") or (cnt_4 > o"254" and cnt_4 <= o"314") or (cnt_4 > o"316" and cnt_4 <= o"356")
 			or (cnt_4 > o"360" and cnt_4 <= o"420") or (cnt_4 > o"422" and cnt_4 <= o"462") or (cnt_4 > o"464" and cnt_4 <= o"524")
-			or (cnt_4 > o"526" and cnt_4 <= o"566"))then
+			or (cnt_4 > o"526" and cnt_4 <= o"566") or (cnt_4 > o"570" and cnt_4 <= o"630"))then
    ds_shcpr<=not ds_shcpr;
    else ds_shcpr<='0';
    end if;
@@ -162,22 +162,22 @@ begin
             when o"036"|o"142" | o"246"|o"352"|o"456"|o"562"=> ds_datar <= seg_wei(6);
             when o"040"|o"144" | o"250"|o"354"|o"460"|o"564"=> ds_datar <= seg_wei(7);
             
-            when o"044" |o"150" |o"254" |o"360"|o"464"=> ds_datar <= '1';
-            when o"046" |o"152" |o"256" |o"362"|o"466"=> ds_datar <= '1';
-            when o"050" |o"154" |o"260" |o"364"|o"470"=> ds_datar <= '1';
-            when o"052" |o"156" |o"262" |o"366"|o"472"=> ds_datar <= '1';
-            when o"054" |o"160" |o"264" |o"370"|o"474"=> ds_datar <= '1';
-            when o"056" |o"162" |o"266" |o"372"|o"476"=> ds_datar <= '1';
-            when o"060" |o"164" |o"270" |o"374"|o"500"=> ds_datar <= '1';
-            when o"062" |o"166" |o"272" |o"376"|o"502"=> ds_datar <= '1';
-            when o"064" |o"170" |o"274" |o"400"|O"504"=> ds_datar <= '1' ;
-            when o"066" |o"172" |o"276" |o"402"|O"506"=> ds_datar <= '1';
-            when o"070" |o"174" |o"300" |o"404"|O"510"=> ds_datar <= '1';
-            when o"072" |o"176" |o"302" |o"406"|o"512"=> ds_datar <= '1';
-            when o"074" |o"200" |o"304" |o"410"|o"514"=> ds_datar <= '1';
-            when o"076" |o"202" |o"306" |o"412"|o"516"=> ds_datar <= '1';
-            when o"100" |o"204" |o"310" |o"414"|o"520"=> ds_datar <= '1';
-            when o"102" |o"206" |o"312" |o"416"|o"522"=> ds_datar <= '1';
+            when o"044" |o"150" |o"254" |o"360"|o"464"|o"570"=> ds_datar <= '1';
+            when o"046" |o"152" |o"256" |o"362"|o"466"|o"572"=> ds_datar <= '1';
+            when o"050" |o"154" |o"260" |o"364"|o"470"|o"574"=> ds_datar <= '1';
+            when o"052" |o"156" |o"262" |o"366"|o"472"|o"576"=> ds_datar <= '1';
+            when o"054" |o"160" |o"264" |o"370"|o"474"|o"600"=> ds_datar <= '1';
+            when o"056" |o"162" |o"266" |o"372"|o"476"|o"602"=> ds_datar <= '1';
+            when o"060" |o"164" |o"270" |o"374"|o"500"|o"604"=> ds_datar <= '1';
+            when o"062" |o"166" |o"272" |o"376"|o"502"|o"606"=> ds_datar <= '1';
+            when o"064" |o"170" |o"274" |o"400"|O"504"|o"610"=> ds_datar <= '1' ;
+            when o"066" |o"172" |o"276" |o"402"|O"506"|o"612"=> ds_datar <= '1';
+            when o"070" |o"174" |o"300" |o"404"|O"510"|o"614"=> ds_datar <= '1';
+            when o"072" |o"176" |o"302" |o"406"|o"512"|o"616"=> ds_datar <= '1';
+            when o"074" |o"200" |o"304" |o"410"|o"514"|o"620"=> ds_datar <= '1';
+            when o"076" |o"202" |o"306" |o"412"|o"516"|o"622"=> ds_datar <= '1';
+            when o"100" |o"204" |o"310" |o"414"|o"520"|o"624"=> ds_datar <= '1';
+            when o"102" |o"206" |o"312" |o"416"|o"522"|o"626"=> ds_datar <= '1';
             when others=> ds_datar <= seg_duan(0);
   end case;
   end if;
@@ -190,10 +190,10 @@ process(clk_50M_div_2,rst_n)
     ds_stcpr<='0';
     elsif rising_edge(clk_50M_div_2) then
     if((cnt_4=o"002")or(cnt_4=o"043")or(cnt_4=o"105")or(cnt_4=o"147")or(cnt_4=o"211")or(cnt_4=o"253")or(cnt_4=o"315")
-	     or(cnt_4=o"357")or(cnt_4=o"421")or(cnt_4=o"463")or(cnt_4=o"525")) then
+	     or(cnt_4=o"357")or(cnt_4=o"421")or(cnt_4=o"463")or(cnt_4=o"525")or(cnt_4=o"567")) then
     ds_stcpr <= '0';
     elsif((cnt_4=o"042")or(cnt_4=o"104")or(cnt_4=o"146")or(cnt_4=o"210")or(cnt_4=o"252")or(cnt_4=o"314")or(cnt_4=o"356")
-	     or(cnt_4=o"420")or(cnt_4=o"462")or(cnt_4=o"524")or(cnt_4=o"566"))then 
+	     or(cnt_4=o"420")or(cnt_4=o"462")or(cnt_4=o"524")or(cnt_4=o"566")or(cnt_4=o"630"))then 
     ds_stcpr<='1';
     end if;
     end if;
