@@ -12,13 +12,13 @@ architecture behav of reseter is
 begin
 
 PROCESS(clk,reset_in) 
-  VARIABLE COUNT1 :INTEGER RANGE 0 TO 100000; 
+  VARIABLE COUNT1 :INTEGER RANGE 0 TO 1000000; 
 BEGIN 
 IF reset_in='0' THEN 
    IF RISING_EDGE(clk) THEN
-    IF COUNT1<6 THEN COUNT1:=COUNT1+1; 
+    IF COUNT1<1000000 THEN COUNT1:=COUNT1+1; 
     ELSE COUNT1:=COUNT1; END IF; 
-    IF COUNT1<=5 THEN reset_out<='1'; 
+    IF COUNT1<=999999 THEN reset_out<='1'; 
     ELSE reset_out<='0'; END IF; 
   END IF; 
 ELSE COUNT1:=0;
