@@ -15,7 +15,7 @@ VARIABLE count : integer RANGE 0 TO 500000;
 BEGIN
 		IF rising_edge(clk_50M) THEN
 			count := count + 1;
-			IF(count = 500000) THEN
+			IF(count = 5) THEN
 				count := 0;
 				key0_reg1<=sw0_f;
 				key1_reg1<=sw1_f;
@@ -26,7 +26,7 @@ BEGIN
 			key1_reg2<=key1_reg1;
 			key2_reg2<=key2_reg1;
 			key3_reg2<=key3_reg1;
-			sw0_L<=key0_reg2 AND (NOT key0_reg1);  --Ïû¶¶
+			sw0_L<=key0_reg2 AND (NOT key0_reg1);  --ï¿½ï¿½ï¿½ï¿½
 			sw1_L<=key1_reg2 AND (NOT key1_reg1);
 			sw2_L<=key2_reg2 AND (NOT key2_reg1);
 			sw3_L<=key3_reg2 AND (NOT key3_reg1);
