@@ -1,18 +1,21 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 
-ENTITY mode_select IS
+ENTITY mode IS
 PORT(clk_1k,key:in std_logic;
   mode_out:out std_logic_vector(1 downto 0));
-END mode_select;
+END mode;
 
-ARCHITECTURE behav OF mode_select IS
+ARCHITECTURE behav OF mode IS
 SIGNAL FLAG:INTEGER RANGE 0 TO 3;
+signal key1,key2:std_logic ;
 BEGIN
 PROCESS(clk_1k)
 	BEGIN
 		IF rising_edge(clk_1k) THEN
-			IF(key='0') THEN
+		    key1 <= key;
+		    key2<=key1 and (not key);
+			IF(key2='1') THEN
 				flag <= flag + 1;    --flag的累加分别对因不同的功能显示
 			END IF;
 		END IF;
