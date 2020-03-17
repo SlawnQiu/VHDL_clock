@@ -4,7 +4,7 @@ use IEEE.std_logic_arith.ALL;
 use ieee.std_logic_unsigned.all;
 entity seg is
 port(clk_50M,rst_n,en:in std_logic;
-	OMS0,OMS1,OSEC0,OSEC1,OMIN0,OMIN1 :STD_LOGIC_VECTOR(3 DOWNTO 0);
+	OMS0,OMS1,OSEC0,OSEC1,OMIN0,OMIN1 IN:STD_LOGIC_VECTOR(3 DOWNTO 0);
     ds_stcp,ds_shcp,ds_data:out std_logic);
 end seg;
 architecture behav of seg is
